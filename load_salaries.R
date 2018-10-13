@@ -9,7 +9,7 @@ load_salaries <- function(dk_address)
         dplyr::select(Name, Position, Salary, Matchup, Date, Time) %>%
         as.data.frame()
     
-    # The Fuck You List 
+    # the annoying name list
     data[data$Name == 'mitchell trubisky', 'Name'] <- 'mitch trubisky'
     data[data$Name %like% 'todd gurley', 'Name'] <- 'todd gurley'
     data[data$Name %like% 'will fuller', 'Name'] <- 'will fuller'

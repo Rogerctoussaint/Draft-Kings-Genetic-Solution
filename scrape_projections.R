@@ -60,7 +60,7 @@ scrape <- function(pos, pt_limit)
         data[data$Name %like% 'miami', 'Name'] <- 'dolphins'
         data[data$Name %like% 'minnesota', 'Name'] <- 'vikings'
         data[data$Name %like% 'new england', 'Name'] <- 'patriots'
-        data[data$Name %like% 'new york g', 'Name'] <- 'giants'
+        data[data$Name %like% 'neucw york g', 'Name'] <- 'giants'
         data[data$Name %like% 'new york j', 'Name'] <- 'jets'
         data[data$Name %like% 'oakland', 'Name'] <- 'raiders'
         data[data$Name %like% 'philadelphia', 'Name'] <- 'eagles'
@@ -72,7 +72,7 @@ scrape <- function(pos, pt_limit)
         data[data$Name %like% 'washington', 'Name'] <- 'redskins'
     }
     
-    ## The fuck you list
+    ## THe annoying name list
     data[data$Name %like% 'chris herndon', 'Name'] <- 'chris herndon'
     
     data # output!
