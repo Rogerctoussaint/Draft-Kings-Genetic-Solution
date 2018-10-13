@@ -13,6 +13,7 @@ This requires the following packages
 - `tidyr`
 - `genalg`
 - `parallel`
+- `stringi`
 
 ## How to Run
 
