@@ -77,7 +77,7 @@ produce_lineups <- function(total_salary = 50000, dk_address, num_lineups, dest_
     print(paste('Starting Lineup Building - Track progress in', out_file))
     
     cores <- detectCores() - 1
-    cl <- makeCluster(cores)
+    cl <- makeCluster(cores, outfile = out_file)
     
     ## You can track the output in this file by opening and updating it in notepad++
     
