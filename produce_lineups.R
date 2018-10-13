@@ -8,7 +8,7 @@
 ## @param num_lineups the number of lineups desired
 ## @param dest_dir where files should be written. Just Folder Names ~ 'Week 6' or 'NFL/Week 6'
 ##
-## @return twenty lineups 
+## @return how ever many lineups you asked for in a dataframe
 ##
 produce_lineups <- function(total_salary = 50000, dk_address, num_lineups, dest_dir = NULL)
 {
