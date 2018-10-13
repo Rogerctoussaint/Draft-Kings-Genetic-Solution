@@ -73,6 +73,7 @@ produce_lineups <- function(total_salary = 50000, dk_address, num_lineups, dest_
     if (file.exists(out_file)) {
         file.remove(out_file)
     }
+    file.create(out_file) # SO the first run can be tracked
     
     print(paste('Starting Lineup Building - Track progress in', out_file))
     
