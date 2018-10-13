@@ -1,7 +1,7 @@
-fit_ga_model <- function(i)
+fit_ga_model <- function(i, wd)
 {
     require(genalg)
-    source('~/Draft Kings/Code/evalFunc.R')
+    source(paste0(wd, '/Draft-Kings-Genetic-Solution/evalFunc.R'))
     
     ga_model <- rbga.bin(size = genome_size,
                          popSize = population_size,

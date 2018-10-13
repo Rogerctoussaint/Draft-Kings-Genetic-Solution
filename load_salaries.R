@@ -1,9 +1,7 @@
 
-load_salaries <- function(week, dk_file) 
+load_salaries <- function(dk_address) 
 {
-    address <- paste0('C:/Users/roger/OneDrive/Documents/Draft Kings/Week ', week, '/',
-                      dk_file, '.csv')
-    data <- fread(address) %>% 
+    data <- fread(dk_address) %>% 
         dplyr::select(Position, Name, Salary, 'Game Info') %>%
         dplyr::mutate(Name = tolower(Name)) %>%
         dplyr::rename(Game_Time = 'Game Info') %>%

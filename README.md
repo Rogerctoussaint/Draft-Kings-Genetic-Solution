@@ -16,14 +16,22 @@ This requires the following packages
 
 ## How to Run
 
-First, the folder structure should be created. As a note, this was done incredibly lazily and will be updated eventually. Create a Draft Kings folder and a Week `x` folder where you'll put the downloaded csv from draft kings. With the code in a `code` folder, you'll be good to again. Again, this will be improved when I feel like it.
+First, download the Draft Kings salaries csv from the Draft Kings website to where you want to store it. Your working directory should be one level below the repo (ie `Draft-Kings-Genetic-Solution` should be folder in your wd.
 
 The `produce_lineups()` function will write a csv with the returned lineups, as well as return the R object. `produce_lineups()` requires the following arguments.
 
 - `total_salary` = the salary limit from draft kings. Defaults to 50,000
-- `week` = NFL week, only matters for folder organization.
 - `dk_file` = the name of the Draft Kings salaries file downloaded from the website. This should be placed at `~/Draft Kings/Week x/`
 - `num_lineups` = the number of lineups wanted
+- `dest_dir` = Where you want to write output. Should be a folder in your wd, and should be passed soley as folder names with no beginning or ending '/'s (ie 'Week 6' or '2018 Season/Week 6'
+
+## Outputs
+
+The `produce_lineups()` function will write the following files to your `dest_dir`
+
+- `lineups.csv` = These are the lineups - Have fun!
+- `null_players.csv` = These are the players with DK salaries that do not get projected points. Could be for a variety of reasons and this is good to check. A lot of the logic for cleaning names is bad right now and will be improved eventually.
+- `parallel_out.txt` = Track this file to make sure the parallelization is going swimmingly
 
 ## Notes
 
