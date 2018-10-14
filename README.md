@@ -30,7 +30,8 @@ The `produce_lineups()` function will write a csv with the returned lineups, as 
 
 The `produce_lineups()` function will write the following files to your `dest_dir`
 
-- `lineups.csv` = These are the lineups - Have fun!
+- `full_lineups.csv` = These are the full lineups, including the exptected scores and salaries for each player
+- `lineups.csv` = These are the lineups with just names, total salary, and total expected score
 - `player_data.csv` = This is all the player salaries and projections. Good to look at players getting null point projections due to match errors on the join.
 - `parallel_out.txt` = Track this file to make sure the parallelization is going swimmingly
 

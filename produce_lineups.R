@@ -99,13 +99,26 @@ produce_lineups <- function(total_salary = 50000, dk_address, num_lineups, dest_
     print(paste('Lineups Done!'))
     print(paste('Took', round((end_time - start_time), 2), 'Minutes'))
      
-    ## Write the lineups out to a csv
+    ## Write the full lineups out to a csv
+    if(is.na(dest_dir))
+        full_lineup_add <- paste0(getwd(), '/full_lineups.csv')
+    else
+        full_lineup_add <- paste0(getwd(), '/', dest_dir,'/full_lineups.csv')
+    
+    write.csv(lineups, full_lineup_add, row.names = FALSE, quote = FALSE)
+    
+    ## Create file with only player names
+    abrev_lineups <- lineups %>% 
+        dplyr::select(QB_NAME, RB1_NAME, RB2_NAME, WR1_NAME, WR2_NAME, WR3_NAME, TE1_NAME,
+                      FLX_NAME, DST_NAME, TOTAL_PTS, TOTAL_SALARY) %>%
+        as.data.frame()
+    
     if(is.na(dest_dir))
         lineup_add <- paste0(getwd(), '/lineups.csv')
     else
         lineup_add <- paste0(getwd(), '/', dest_dir,'/lineups.csv')
     
-    write.csv(lineups, lineup_add, row.names = FALSE, quote = FALSE)
+    write.csv(abrev_lineups, lineup_add, row.names = FALSE, quote = FALSE)
     
     print(paste('Lineups available at', lineup_add))
     lineups
