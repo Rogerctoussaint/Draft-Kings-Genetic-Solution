@@ -37,12 +37,12 @@ produce_lineups <- function(total_salary = 50000, dk_address, num_lineups, dest_
     
     # Writes the players with salaries getting null projections for debugging purposes
     if(is.na(dest_dir))
-        null_add <- paste0(getwd(), '/null_players.csv')
+        data_add <- paste0(getwd(), '/player_data.csv')
     else
-        null_add <- paste0(getwd(), '/', dest_dir,'/null_players.csv')
+        data_add <- paste0(getwd(), '/', dest_dir,'/player_data.csv')
     
-    write.csv(data[is.na(data$FPTS), ], null_add, 
-              row.names = FALSE, quote = FALSE)
+    ## Write the data being used
+    write.csv(data, data_add, row.names = FALSE, quote = FALSE)
     
     ## Removes the na points players
     data <- data %>% dplyr::filter(!is.na(FPTS)) %>% as.data.frame()
