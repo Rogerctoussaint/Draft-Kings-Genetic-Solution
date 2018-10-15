@@ -20,7 +20,8 @@ scrape_projections <- function(pt_limit)
 scrape <- function(pos, pt_limit) 
 {
     # Get the URL for the position
-    url <- paste0('https://www.fantasypros.com/nfl/projections/', pos, '.php')
+    url <- paste0('https://www.fantasypros.com/nfl/projections/', pos, 
+                  '.php?max-yes=true&min-yes=true')
     url <- getURL(url)
     
     # Scrape the data and filter to players with more than 0 projected points
@@ -28,18 +29,46 @@ scrape <- function(pos, pt_limit)
     # dplyr doesn't like it when columns have the same name, so this is down with base R
     data <- data[ ,c('Player', 'FPTS')]
 
+    ## Currently, the average, high, and low scores are all in one string in FPTS.
+    ## THis next chunk will split this string and output the respectivce scores to 
+    ## the right column in data
+    
+    temp <- data$FPTS
+    temp <- strsplit(temp, split='')
+    index <- lapply(temp, function(x) which(x == '.') + 1)
+    
+    pts <- NULL 
+    for(i in 1:nrow(data)) {
+        pts[i] <- as.numeric(paste0(temp[[i]][1:index[[i]][1]], collapse = ''))
+    }
+    
+    high <- NULL
+    for(i in 1:nrow(data)) {
+        high[i] <- as.numeric(paste0(temp[[i]][(index[[i]][1]+1):index[[i]][2]], 
+                                     collapse = ''))
+    }
+    
+    low <- NULL
+    for(i in 1:nrow(data)) {
+        low[i] <- as.numeric(paste0(temp[[i]][(index[[i]][2]+1):index[[i]][3]], 
+                                    collapse = ''))
+    }
+    
+    data$FPTS <- pts
+    data$FPTS_HIGH <- high
+    data$FPTS_LOW <- low
+    
     ## Filter out any players with 0 projected points and create position column
     data <- data %>%
         dplyr::mutate(FPTS = as.numeric(FPTS)) %>%
         dplyr::filter(FPTS > pt_limit) %>%
         dplyr::mutate(Position = toupper(pos),
-                      Name = tolower(trimws(substring(Player, 1, nchar(Player)-3)))) %>%
-        dplyr::select(Name, Position, FPTS) %>%
+                      Name = tolower(trimws(substring(Player, 1, nchar(Player)-11)))) %>%
+        dplyr::select(Name, Position, FPTS, FPTS_HIGH, FPTS_LOW) %>%
         as.data.frame()
     
     ## YAY DEFENSE HANDLING
-    if(data[1, 'Position'] == 'DST')
-    {
+    if(data[1, 'Position'] == 'DST') {
         data[data$Name %like% 'arizona', 'Name'] <- 'cardinals'
         data[data$Name %like% 'atlanta', 'Name'] <- 'falcons'
         data[data$Name %like% 'baltimore', 'Name'] <- 'ravens'
@@ -60,7 +89,7 @@ scrape <- function(pos, pt_limit)
         data[data$Name %like% 'miami', 'Name'] <- 'dolphins'
         data[data$Name %like% 'minnesota', 'Name'] <- 'vikings'
         data[data$Name %like% 'new england', 'Name'] <- 'patriots'
-        data[data$Name %like% 'neucw york g', 'Name'] <- 'giants'
+        data[data$Name %like% 'new york g', 'Name'] <- 'giants'
         data[data$Name %like% 'new york j', 'Name'] <- 'jets'
         data[data$Name %like% 'oakland', 'Name'] <- 'raiders'
         data[data$Name %like% 'philadelphia', 'Name'] <- 'eagles'

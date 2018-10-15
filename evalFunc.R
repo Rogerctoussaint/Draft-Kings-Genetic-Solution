@@ -6,6 +6,8 @@ evalFunc <- function(x)
     ## Calculates salary and total score
     curr_sal <- sum(data[team_ind, 'Salary'])
     curr_score <- sum(data[team_ind, 'FPTS'])
+    upside <- sum(data[team_ind, 'FPTS_HIGH'] - data[team_ind, 'FPTS'])
+    downside <- sum(data[team_ind, 'FPTS'] - data[team_ind, 'FPTS_LOW'])
     
     ## Gives 0 fitness if salary is too high
     if(curr_sal > total_salary) 
@@ -34,4 +36,6 @@ evalFunc <- function(x)
     
     ## return the negated score as the fitness!
     return(-curr_score)
+    #return(-curr_score - (0.5 * upside))
+    #return(-curr_score + (0.5 * downside))
 }

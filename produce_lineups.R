@@ -27,6 +27,10 @@ produce_lineups <- function(total_salary = 50000, dk_address, num_lineups, dest_
     source(paste0(getwd(), '/Draft-Kings-Genetic-Solution/load_salaries.R'))
     source(paste0(getwd(), '/Draft-Kings-Genetic-Solution/fit_ga_model.R'))
     
+    if (!file.exists(dest_dir)) {
+        dir.create(dest_dir)
+    }
+    
     proj <- scrape_projections(0)
     sals <- load_salaries(dk_address)
     
@@ -56,9 +60,9 @@ produce_lineups <- function(total_salary = 50000, dk_address, num_lineups, dest_
     
     ## Set the paramters for the GA
     genome_size <- nrow(data)
-    population_size <- 2 * genome_size
-    generations <- 2 * genome_size
-    mut_chance <- 0.01
+    population_size <- 500
+    generations <- 400
+    mut_chance <- 0.05
     
     ## start the timer!
     start_time <- Sys.time()
@@ -75,6 +79,16 @@ produce_lineups <- function(total_salary = 50000, dk_address, num_lineups, dest_
     }
     print(paste('Starting Lineup Building - Track progress in', out_file))
     
+    
+    # This will alter the fitness function slightly. 50% of lineups will be generated with
+    # no weight for variance, 25% will value upside, 25% will minimize downside
+    ## WIll help with lineup diversity
+    num_norm <- ceiling(num_lineups / 2)
+    num_up <- ceiling((num_lineups - num_norm) / 2)
+    num_down <- num_lineups - num_up - num_norm
+    risky <- c(rep('normal', num_norm), rep('upside', num_up), rep('downside', num_down))
+    
+    ## Sets up the parallel
     cores <- detectCores() - 1
     cl <- makeCluster(cores, outfile = out_file)
     
@@ -85,7 +99,7 @@ produce_lineups <- function(total_salary = 50000, dk_address, num_lineups, dest_
                   varlist =  c('genome_size', 'population_size', 'generations', 
                                'mut_chance', 'qb_ind', 'rb_ind', 'wr_ind', 'te_ind', 
                                'df_ind', 'flex_ind', 'data', 'fit_ga_model', 
-                               'total_salary','start_time', 'num_lineups'))
+                               'total_salary','start_time', 'num_lineups', 'risky'))
 
     ## Create the desired number of lineups
     lineups <- parLapply(cl, 1:num_lineups, fun = function(i) fit_ga_model(i, getwd()))

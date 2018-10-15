@@ -2,12 +2,23 @@ fit_ga_model <- function(i, wd)
 {
     require(genalg)
     source(paste0(wd, '/Draft-Kings-Genetic-Solution/evalFunc.R'))
+    source(paste0(wd, '/Draft-Kings-Genetic-Solution/evalFuncUpside.R'))
+    source(paste0(wd, '/Draft-Kings-Genetic-Solution/evalFuncDownside.R'))
+    
+    ## Checks for the type of fitness function we want.
+    if (risky[i] == 'normal') {
+        eval <- evalFunc
+    } else if (risky[i] == 'upside') {
+        eval <- evalFuncUpside
+    } else if (risky[i] == 'downside') {
+        eval <- evalFuncDownside
+    }
     
     ga_model <- rbga.bin(size = genome_size,
                          popSize = population_size,
                          iters = generations,
                          mutationChance = mut_chance,
-                         evalFunc = evalFunc)
+                         evalFunc = eval)
     
     solution <- ga_model$population[which.min(ga_model$evaluations),]
     team <- data[which(solution == 1), ]
@@ -44,7 +55,8 @@ fit_ga_model <- function(i, wd)
                               DST_NAME = team[df_out, 'Name'],
                               DST_PTS = team[df_out, 'FPTS'],
                               TOTAL_PTS = sum(team$FPTS),
-                              TOTAL_SALARY = sum(team$Salary))
+                              TOTAL_SALARY = sum(team$Salary),
+                              RISKINESS = risky[i])
     
     curr_time <- Sys.time()
     print(paste('Lineup', i, 'Done After', curr_time - start_time, 'minutes'))

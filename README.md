@@ -39,7 +39,9 @@ The `produce_lineups()` function will write the following files to your `dest_di
 
 Parallelization is done by the `parallel` package, which the genetic algorithm is implemented by the `genalg` package. 
 
-The genetic algorithm is set with a population size and iterations of 2 * genome size. This may be a bit overkill and will be adjusted if runtime becomes a concern, but parallelization keeps it well under an hour. If lack of diversity at positions like quarterback becomes an issue, these parameters may be lowered. This relationship can easily be changed as we see how the algorithm performs.
+Since Week 6, the population size was lowered to 500 and the number of iterations was lowered 400. These were lowered to prevent over-fitting to the projections.
+
+Additionally, one quarter of the lineups produced now assign more fitness to lineups with higher upside as measured by the highest prediction in the fantasy pros composite projection. Another quarter of lineups are considering the downside and minimizing it. 
 
 Big Thanks to this article: https://datashoptalk.com/double-yo-money/ for the motivation/direction
 
