@@ -45,10 +45,9 @@ Big Thanks to this article: https://datashoptalk.com/double-yo-money/ for the mo
 
 ## Results
 
-### Week 6
-
-#### Return: __ per dollar 
+Week 6: $0.56 per dollar bet - BAD, first week, moving forward
+ 
 
 #### Excuses
 
-tbd...
+- Need to run close to kickoff with updated projections. Got burned week 6 by Vannett being a last minute injury after inputting lineups the night before.
