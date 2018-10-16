@@ -36,26 +36,34 @@ fit_ga_model <- function(i, wd)
     if(length(te_out) == 2)
         flex_out <- te_out[2]
     
-    temp_lineup <- data.frame(QB_NAME = team[qb_out, 'Name'],
-                              QB_PTS = team[qb_out, 'FPTS'],
-                              RB1_NAME = team[rb_out[1], 'Name'],
-                              RB1_PTS = team[rb_out[1], 'FPTS'],
-                              RB2_NAME = team[rb_out[2], 'Name'],
-                              RB2_PTS = team[rb_out[2], 'FPTS'],
-                              WR1_NAME = team[wr_out[1], 'Name'],
-                              WR1_PTS = team[wr_out[1], 'FPTS'],
-                              WR2_NAME = team[wr_out[2], 'Name'],
-                              WR2_PTS = team[wr_out[2], 'FPTS'],
-                              WR3_NAME = team[wr_out[3], 'Name'],
-                              WR3_PTS = team[wr_out[3], 'FPTS'],
-                              TE1_NAME = team[te_out[1], 'Name'],
-                              TE1_PTS = team[te_out[1], 'FPTS'],
-                              FLX_NAME = team[flex_out, 'Name'],
-                              FLX_PTS = team[flex_out, 'FPTS'],
-                              DST_NAME = team[df_out, 'Name'],
-                              DST_PTS = team[df_out, 'FPTS'],
-                              TOTAL_PTS = sum(team$FPTS),
-                              TOTAL_SALARY = sum(team$Salary),
+    temp_lineup <- data.frame(QB_NAME=team[qb_out,'Name'], QB_PTS=team[qb_out,'FPTS'],
+                              QB_SALARY=team[qb_out,'Salary'], QB_ID=team[qb_out,'ID'],
+                              
+                              RB1_NAME=team[rb_out[1],'Name'], RB1_PTS=team[rb_out[1],'FPTS'],
+                              RB1_SALARY=team[rb_out[1],'Salary'], RB1_ID=team[rb_out[1],'ID'],
+                              
+                              RB2_NAME=team[rb_out[2],'Name'], RB2_PTS=team[rb_out[2],'FPTS'],
+                              RB2_SALARY=team[rb_out[2],'Salary'], RB2_ID=team[rb_out[2],'ID'],
+                              
+                              WR1_NAME=team[wr_out[1],'Name'], WR1_PTS=team[wr_out[1],'FPTS'],
+                              WR1_SALARY=team[wr_out[1],'Salary'], WR1_ID=team[wr_out[1],'ID'],
+                              
+                              WR2_NAME=team[wr_out[2],'Name'], WR2_PTS=team[wr_out[2],'FPTS'],
+                              WR2_SALARY=team[wr_out[2],'Salary'], WR2_ID=team[wr_out[2],'ID'],
+                              
+                              WR3_NAME=team[wr_out[3],'Name'], WR3_PTS=team[wr_out[3],'FPTS'],
+                              WR3_SALARY=team[wr_out[3],'Salary'], WR3_ID=team[wr_out[3],'ID'],
+                              
+                              TE1_NAME=team[te_out[1],'Name'], TE1_PTS=team[te_out[1],'FPTS'],
+                              TE1_SALARY=team[te_out[1],'Salary'], TE1_ID=team[te_out[1],'ID'],
+                              
+                              FLX_NAME=team[flex_out,'Name'], FLX_PTS=team[flex_out,'FPTS'],
+                              FLX_SALARY=team[flex_out,'Salary'], FLX_ID=team[flex_out,'ID'],
+                              
+                              DST_NAME=team[df_out,'Name'], DST_PTS=team[df_out,'FPTS'],
+                              DST_SALARY=team[df_out,'Salary'], DST_ID=team[df_out,'ID'],
+                              
+                              TOTAL_PTS = sum(team$FPTS), TOTAL_SALARY = sum(team$Salary),
                               RISKINESS = risky[i])
     
     curr_time <- Sys.time()

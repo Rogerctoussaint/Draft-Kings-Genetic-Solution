@@ -10,8 +10,8 @@
 ##
 ## @return how ever many lineups you asked for in a dataframe
 ##
-produce_lineups <- function(total_salary = 50000, dk_address, num_lineups, dest_dir = NULL)
-{
+produce_lineups <- function(total_salary = 50000, dk_address, num_lineups, dest_dir = NULL) {
+    
     # load the packages required
     suppressPackageStartupMessages(require(XML))
     suppressPackageStartupMessages(require(RCurl))
@@ -27,8 +27,16 @@ produce_lineups <- function(total_salary = 50000, dk_address, num_lineups, dest_
     source(paste0(getwd(), '/Draft-Kings-Genetic-Solution/load_salaries.R'))
     source(paste0(getwd(), '/Draft-Kings-Genetic-Solution/fit_ga_model.R'))
     
+    ## Creates the des_dir if it doesn't exist
     if (!file.exists(dest_dir)) {
         dir.create(dest_dir)
+    }
+    
+    ## adds a / to end of the dest dir if it is not null
+    if(!is.null(dest_dir)) {
+        if (substring(dest_dir, nchar(dest_dir), nchar(dest_dir)) != '/') {
+            dest_dir <- paste0(dest_dir,'/')
+        }
     }
     
     proj <- scrape_projections(0)
@@ -39,13 +47,8 @@ produce_lineups <- function(total_salary = 50000, dk_address, num_lineups, dest_
         dplyr::arrange(Name) %>%
         as.data.frame()
     
-    # Writes the players with salaries getting null projections for debugging purposes
-    if(is.na(dest_dir))
-        data_add <- paste0(getwd(), '/player_data.csv')
-    else
-        data_add <- paste0(getwd(), '/', dest_dir,'/player_data.csv')
-    
     ## Write the data being used
+    data_add <- paste0(getwd(), '/', dest_dir,'player_data.csv')
     write.csv(data, data_add, row.names = FALSE, quote = FALSE)
     
     ## Removes the na points players
@@ -68,17 +71,14 @@ produce_lineups <- function(total_salary = 50000, dk_address, num_lineups, dest_
     start_time <- Sys.time()
     
     ## Initialize paraellelication to make this faster
-    if(is.na(dest_dir)) {
-        out_file <- paste0(getwd(), '/parallel_out.txt')
-    } else {
-        out_file <- paste0(getwd(), '/', dest_dir,'/parallel_out.txt')
-    }
+    
+    ## Create the outfile to track parallel progress
+    out_file <- paste0(getwd(), '/', dest_dir,'parallel_out.txt')
     
     if (file.exists(out_file)) {
         file.remove(out_file)
     }
     print(paste('Starting Lineup Building - Track progress in', out_file))
-    
     
     # This will alter the fitness function slightly. 50% of lineups will be generated with
     # no weight for variance, 25% will value upside, 25% will minimize downside
@@ -114,11 +114,7 @@ produce_lineups <- function(total_salary = 50000, dk_address, num_lineups, dest_
     print(paste('Took', round((end_time - start_time), 2), 'Minutes'))
      
     ## Write the full lineups out to a csv
-    if(is.na(dest_dir))
-        full_lineup_add <- paste0(getwd(), '/full_lineups.csv')
-    else
-        full_lineup_add <- paste0(getwd(), '/', dest_dir,'/full_lineups.csv')
-    
+    full_lineup_add <- paste0(getwd(), '/', dest_dir,'full_lineups.csv')
     write.csv(lineups, full_lineup_add, row.names = FALSE, quote = FALSE)
     
     ## Create file with only player names
@@ -127,12 +123,19 @@ produce_lineups <- function(total_salary = 50000, dk_address, num_lineups, dest_
                       FLX_NAME, DST_NAME, TOTAL_PTS, TOTAL_SALARY) %>%
         as.data.frame()
     
-    if(is.na(dest_dir))
-        lineup_add <- paste0(getwd(), '/lineups.csv')
-    else
-        lineup_add <- paste0(getwd(), '/', dest_dir,'/lineups.csv')
-    
+    lineup_add <- paste0(getwd(), '/', dest_dir,'lineups.csv')
     write.csv(abrev_lineups, lineup_add, row.names = FALSE, quote = FALSE)
+    
+    ## Writes the ID's for input to draft kings
+    dk_input <- lineups %>%
+        dplyr::select(QB_ID, RB1_ID, RB2_ID, WR1_ID, WR2_ID, WR3_ID, 
+                      TE1_ID, FLX_ID, DST_ID) %>%
+        dplyr::rename(QB = QB_ID, RB = RB1_ID, RB = RB2_ID, WR = WR1_ID, WR = WR2_ID,
+                      WR = WR3_ID, TE = TE1_ID, FLEX = FLX_ID, DST = DST_ID) %>%
+        as.data.frame()
+    
+    dk_add <- paste0(getwd(), '/', dest_dir,'dk_input.csv')
+    write.csv(dk_input, dk_add, row.names = FALSE, quote = FALSE)
     
     print(paste('Lineups available at', lineup_add))
     lineups

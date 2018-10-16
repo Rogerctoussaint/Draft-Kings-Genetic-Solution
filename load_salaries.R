@@ -2,11 +2,11 @@
 load_salaries <- function(dk_address) 
 {
     data <- fread(dk_address) %>% 
-        dplyr::select(Position, Name, Salary, 'Game Info') %>%
+        dplyr::select(Position, Name, Salary, 'Game Info', ID) %>%
         dplyr::mutate(Name = tolower(Name)) %>%
         dplyr::rename(Game_Time = 'Game Info') %>%
         tidyr::separate(Game_Time, into = c('Matchup', 'Date', 'Time', 'Time_Zone'), sep = ' ') %>%
-        dplyr::select(Name, Position, Salary, Matchup, Date, Time) %>%
+        dplyr::select(Name, Position, Salary, Matchup, Date, Time, ID) %>%
         as.data.frame()
     
     # the annoying name list
