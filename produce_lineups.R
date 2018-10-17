@@ -6,7 +6,7 @@
 ## @param dk_address the address of the draft kings salaries file. Needs to be downloaded from 
 ##        the DK website
 ## @param num_lineups the number of lineups desired
-## @param dest_dir where files should be written. Just Folder Names ~ 'Week 6' or 'NFL/Week 6'
+## @param dest_dir where files should be written. Just Folder Names ~ 'Week-6' or 'NFL/Week-6'
 ##
 ## @return how ever many lineups you asked for in a dataframe
 ##
@@ -134,7 +134,7 @@ produce_lineups <- function(total_salary = 50000, dk_address, num_lineups, dest_
                       WR = WR3_ID, TE = TE1_ID, FLEX = FLX_ID, DST = DST_ID) %>%
         as.data.frame()
     
-    dk_add <- paste0(getwd(), '/', dest_dir,'dk_input.csv')
+    dk_add <- paste0(getwd(), '/', dest_dir,'DKLineups.csv')
     write.csv(dk_input, dk_add, row.names = FALSE, quote = FALSE)
     
     print(paste('Lineups available at', lineup_add))
