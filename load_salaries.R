@@ -25,6 +25,8 @@ load_salaries <- function(dk_address)
     data[data$Name %like% 'sammie coates', 'Name'] <- 'sammie coates'
     data[data$Name %like% 'jojo natson', 'Name'] <- 'jojo natson'
     data[data$Name %like% 'buddy howell', 'Name'] <- 'gregory howell'
+    data[data$Name %like% 'marvin jones', 'Name'] <- 'marvin jones'
+    data[data$Name %like% 'richie james', 'Name'] <- 'richie james'
         
     data
 }

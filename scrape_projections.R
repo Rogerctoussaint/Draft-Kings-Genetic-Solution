@@ -89,6 +89,7 @@ scrape <- function(pos, pt_limit)
         data[data$Name %like% 'miami', 'Name'] <- 'dolphins'
         data[data$Name %like% 'minnesota', 'Name'] <- 'vikings'
         data[data$Name %like% 'new england', 'Name'] <- 'patriots'
+        data[data$Name %like% 'new orleans', 'Name'] <- 'saints'
         data[data$Name %like% 'new york g', 'Name'] <- 'giants'
         data[data$Name %like% 'new york j', 'Name'] <- 'jets'
         data[data$Name %like% 'oakland', 'Name'] <- 'raiders'
